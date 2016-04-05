@@ -30,15 +30,16 @@ public class Film {
 			while(rs.next()){
 				int inventoryId = rs.getInt("inventory_id");
 				Date rentalDater= rs.getDate("rental_date");
-				System.out.print(rentalDater+"|");
+				
 				String sql2 = "select title,film_id from film where film_id = (select film_id from inventory where inventory_id = "+inventoryId+")";			
 				ResultSet rs2  = st2.executeQuery(sql2);
 				while(rs2.next()){
 					System.out.print(rs2.getInt("film_id")+"|");
-					System.out.println(rs2.getString("title"));
+					System.out.print(rs2.getString("title")+"|");
+					System.out.print(rentalDater);
+					System.out.println();
 
 				}
-				
 			}
 
 			conn.commit();
