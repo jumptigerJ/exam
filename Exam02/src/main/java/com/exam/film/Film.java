@@ -17,7 +17,6 @@ public class Film {
 		System.out.print("请输入CustomerID:");
 		int customerId = scanner.nextInt();
 		String sql1 = "select inventory_id,rental_date from rental where customer_id = "+customerId+" order by rental_date desc";
-		ArrayList<Integer> list = new ArrayList<Integer>();
 		
 		try {
 			conn = ConnectionFactory.getInstance().makeConnection();
@@ -30,19 +29,16 @@ public class Film {
 			System.out.println("Film ID|Film 名称|租用时间");
 			while(rs.next()){
 				int inventoryId = rs.getInt("inventory_id");
-				list.add(inventoryId);
 				Date rentalDater= rs.getDate("rental_date");
 				System.out.print(rentalDater+"|");
-				String sql2 = "select title,film_id from film where film_id = (select film_id from inventory where inventory_id = "+inventoryId+")";
-//				
+				String sql2 = "select title,film_id from film where film_id = (select film_id from inventory where inventory_id = "+inventoryId+")";			
 				ResultSet rs2  = st2.executeQuery(sql2);
 				while(rs2.next()){
 					System.out.print(rs2.getInt("film_id")+"|");
 					System.out.println(rs2.getString("title"));
-					
+
 				}
 				
-	
 			}
 
 			conn.commit();
